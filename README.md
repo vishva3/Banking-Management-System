@@ -5,7 +5,7 @@ Welcome to the Banking Management System project! This C++ project aims to simul
 
 # Features
 1. User Interface: Interactive command-line interface for ease of use.
-2. Bank Operations: Account creation, bill payments, cash withdrawals, balance inquiries, and PIN changes.
+2. Bank Operations: Account creation, cash withdrawals and balance inquiries.
 3. Admin Controls: Account processing, bill payment queue management.
 4. Data Persistence: Data is stored and managed within the program.
 
