@@ -21,9 +21,22 @@ const string sep = " |";
 const int totalLen = maxName + maxNumber + typeSize + maxMoney + sep.size() * 4;
 const string sepLine = sep + string(totalLen - 1, '=') + '|';
 
+class Transaction {
+private:
+    int amount;
+    char type; // 'D' for deposit, 'W' for withdrawal
+    string timestamp;
+    Transaction* next;
+
+public:
+    Transaction(int amt, char t, const string& time) : amount(amt), type(t), timestamp(time), next(nullptr) {}
+    friend class Bank;
+};
+
 class Bank {
     private:
         unsigned long long account_number;
+        Transaction* transactions; // Linked list head for transactions
 		char holder_name[51];
 		int deposit;
 		char type;
@@ -42,6 +55,33 @@ class Bank {
 		int retdeposit() const; //function to return balance amount
 		char rettype() const; //TO WITHDRAW FROM DEPOSIT			
 		void Modification_data();
+		
+		void Add_Transaction(int amt, char t) {
+        time_t now = time(0);
+        char* dt = ctime(&now);
+        string timestamp(dt);
+        Transaction* newTransaction = new Transaction(amt, t, timestamp);
+        if (!transactions) {
+            transactions = newTransaction;
+        } else {
+            Transaction* temp = transactions;
+            while (temp->next) {
+                temp = temp->next;
+            }
+            temp->next = newTransaction;
+        }
+    }
+    
+    void Show_Transactions() const {
+        Transaction* temp = transactions;
+        cout << "\n\nTRANSACTION HISTORY\n";
+        while (temp) {
+            cout << "\nAmount: " << temp->amount;
+            cout << "\nType: " << (temp->type == 'D' ? "Deposit" : "Withdrawal");
+            cout << "\nTimestamp: " << temp->timestamp;
+            temp = temp->next;
+        }
+    }
 };
 
 void Bank::Get_Data() {
