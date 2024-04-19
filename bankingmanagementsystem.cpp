@@ -40,6 +40,7 @@ class Bank {
 		char holder_name[51];
 		int deposit;
 		char type;
+	queue<unsigned long long> closureRequests; // Queue for account closure requests
     public:
 
         void System_clear();
@@ -72,16 +73,35 @@ class Bank {
         }
     }
     
-    void Show_Transactions() const {
-        Transaction* temp = transactions;
+void Show_Transactions() const 
+{
+	Transaction* temp = transactions;
         cout << "\n\nTRANSACTION HISTORY\n";
-        while (temp) {
+        while (temp) 
+	{
             cout << "\nAmount: " << temp->amount;
             cout << "\nType: " << (temp->type == 'D' ? "Deposit" : "Withdrawal");
             cout << "\nTimestamp: " << temp->timestamp;
             temp = temp->next;
         }
-    }
+}
+
+void Add_Closure_Request(unsigned long long accNo) 
+{
+        closureRequests.push(accNo);
+        cout << "\nAccount closure request added for Account No: " << accNo;
+}
+
+void Process_Closure_Requests() 
+{
+	while (!closureRequests.empty()) 
+	{
+            unsigned long long accNo = closureRequests.front();
+            Delete_Account(accNo); // Call existing account closure function
+            closureRequests.pop();
+        }
+        cout << "\n\nAll pending closure requests processed.";
+}
 };
 
 void Bank::Get_Data() {
