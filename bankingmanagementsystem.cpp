@@ -9,6 +9,8 @@
 #include <iomanip>
 
 #include <string>
+
+#include <queue>
 using namespace std;
 
 //---------------------------------------------------------------------------------------------------//
@@ -90,17 +92,6 @@ void Add_Closure_Request(unsigned long long accNo)
 {
         closureRequests.push(accNo);
         cout << "\nAccount closure request added for Account No: " << accNo;
-}
-
-void Process_Closure_Requests() 
-{
-	while (!closureRequests.empty()) 
-	{
-            unsigned long long accNo = closureRequests.front();
-            Delete_Account(accNo); // Call existing account closure function
-            closureRequests.pop();
-        }
-        cout << "\n\nAll pending closure requests processed.";
 }
 };
 
